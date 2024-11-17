@@ -10,6 +10,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
@@ -23,20 +24,20 @@ public class BookRepository {
     @PersistenceContext(unitName = "bookStorePU")
     private EntityManager em;
     
-    public Book find(Long id) {
+    public Book find(@NotNull Long id) {
         
         return em.find(Book.class, id);
     }
     
     @Transactional(Transactional.TxType.REQUIRED)
-    public Book create(Book book) {
+    public Book create(@NotNull Book book) {
         
         em.persist(book);
         return book;
     }
     
     @Transactional(Transactional.TxType.REQUIRED)
-    public void delete(Long id) {
+    public void delete(@NotNull Long id) {
         
         em.remove(em.find(Book.class, id));
     }

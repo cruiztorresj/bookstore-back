@@ -11,6 +11,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -29,18 +33,25 @@ public class Book implements Serializable {
     private Long id;
     
     @Column(length = 200)
+    @NotNull
+    @Size(min = 1, max = 200)
     private String title;
     
     @Column(length = 1000)
+    @Size(min = 0, max = 1000)
     private String description;
     
     @Column(name = "unit_price")
+    @Min(1)
     private Float unitPrice;
     
+    @NotNull
+    @Size(min = 1, max = 50)
     private String isbn;
     
     @Temporal(TemporalType.DATE)
     @Column(name = "publication_date")
+    @Past
     private Date publicationDate;
     
     @Column(name = "number_of_pages")
