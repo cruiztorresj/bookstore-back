@@ -5,6 +5,9 @@
 package com.calebjosue.bookstore.repository;
 
 import com.calebjosue.bookstore.model.Book;
+import com.calebjosue.bookstore.util.NumberGenerator;
+import com.calebjosue.bookstore.util.TextUtil;
+import jakarta.inject.Inject;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -21,6 +24,12 @@ import java.util.List;
 @Transactional(Transactional.TxType.SUPPORTS)
 public class BookRepository {
     
+    @Inject
+    private TextUtil textUtil;
+    
+    @Inject
+    private NumberGenerator numberGenerator;
+    
     @PersistenceContext(unitName = "bookStorePU")
     private EntityManager em;
     
@@ -32,6 +41,8 @@ public class BookRepository {
     @Transactional(Transactional.TxType.REQUIRED)
     public Book create(@NotNull Book book) {
         
+        book.setTitle(textUtil.sanitize(book.getTitle()));
+        book.setIsbn(numberGenerator.generateNumber());
         em.persist(book);
         return book;
     }
